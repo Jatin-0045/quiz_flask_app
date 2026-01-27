@@ -1,24 +1,35 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 import mysql.connector
+from mysql.connector import Error
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 import random
+import os
 
 app = Flask(__name__)
-app.secret_key = "intelliquiz_secret_key"
+app.secret_key = os.environ.get("SECRET_KEY", "intelliquiz_secret_key")
 
 # -------------------- DATABASE --------------------
-db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="root123",
-    database="intelliquiz"
-)
+def get_db_connection():
+    """
+    Connect to MySQL using Railway environment variables.
+    If running locally, it will use local credentials.
+    """
+    return mysql.connector.connect(
+        host=os.environ.get("DB_HOST", "localhost"),
+        user=os.environ.get("DB_USER", "root"),
+        password=os.environ.get("DB_PASSWORD", "root123"),
+        database=os.environ.get("DB_NAME", "intelliquiz")
+    )
+
+db = get_db_connection()
+
 
 # -------------------- AUTH --------------------
 @app.route("/")
 def welcome():
     return render_template("welcome.html")
+
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -36,12 +47,13 @@ def signup():
             db.commit()
             flash("Account created successfully.", "success")
             return redirect(url_for("login"))
-        except:
+        except Exception as e:
             flash("Username already exists.", "error")
         finally:
             cur.close()
 
     return render_template("signup.html")
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -63,10 +75,12 @@ def login():
 
     return render_template("login.html")
 
+
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("welcome"))
+
 
 # -------------------- QUIZ ENTRY --------------------
 @app.route("/index", methods=["GET", "POST"])
@@ -81,11 +95,13 @@ def index():
 
     return render_template("index.html")
 
+
 @app.route("/quiz")
 def quiz():
     if "user_id" not in session:
         return redirect(url_for("login"))
     return render_template("quiz.html")
+
 
 # -------------------- TOKEN --------------------
 def get_token(reset=False):
@@ -93,6 +109,7 @@ def get_token(reset=False):
         r = requests.get("https://opentdb.com/api_token.php?command=request")
         session["trivia_token"] = r.json()["token"]
     return session["trivia_token"]
+
 
 # -------------------- QUESTIONS --------------------
 @app.route("/get-questions")
@@ -112,16 +129,7 @@ def get_questions():
     }
 
     ENTERTAINMENT_CATEGORIES = [
-        10, # Books
-        11, # Film
-        12, # Music
-        13, # Musicals & Theatre
-        14, # Television
-        15, # Video Games
-        16, # Board Games
-        29, # Comics
-        31, # Anime & Manga
-        32  # Cartoons & Animations
+        10, 11, 12, 13, 14, 15, 16, 29, 31, 32
     ]
 
     if subject == "General Entertainment":
@@ -149,6 +157,7 @@ def get_questions():
 
     return jsonify(data)
 
+
 # -------------------- RESULT --------------------
 @app.route("/result", methods=["POST"])
 def result():
@@ -156,7 +165,7 @@ def result():
     total = int(request.form.get("total", 0))
     percentage = (score / total) * 100 if total else 0
 
-    if 0 < total < 10: 
+    if 0 < total < 10:
         msg = ("🙂 Thanks for playing! You can jump back in anytime.")
     elif total == 0:
         msg = ("💙 Thanks for stopping by — see you again!")
@@ -166,8 +175,8 @@ def result():
             "💪 Good job! You are getting better in this" if percentage >= 60 else
             "🙂 Good Going! Keep up the good work!" if percentage >= 40 else
             "😕 You can do much better! Try again!"
-    )
-    
+        )
+
     cur = db.cursor()
     cur.execute(
         "INSERT INTO quiz_history (user_id, score, total, percentage) VALUES (%s,%s,%s,%s)",
@@ -177,6 +186,7 @@ def result():
     cur.close()
 
     return render_template("result.html", score=score, total=total, msg=msg)
+
 
 # -------------------- HISTORY --------------------
 @app.route("/history")
@@ -189,6 +199,7 @@ def history():
     records = cur.fetchall()
     cur.close()
     return render_template("history.html", records=records)
+
 
 @app.route("/delete-history", methods=["POST"])
 def delete_history():
@@ -206,6 +217,7 @@ def delete_history():
     flash("Quiz history deleted successfully.", "success")
     return redirect(url_for("history"))
 
+
 @app.route("/delete-account", methods=["POST"])
 def delete_account():
     if "user_id" not in session:
@@ -222,7 +234,6 @@ def delete_account():
         flash("Incorrect password. Account not deleted.", "error")
         return redirect(url_for("index"))
 
-    # delete history + user
     cur.execute("DELETE FROM quiz_history WHERE user_id = %s", (user_id,))
     cur.execute("DELETE FROM users WHERE id = %s", (user_id,))
     db.commit()
@@ -231,6 +242,7 @@ def delete_account():
     session.clear()
     flash("Your account has been permanently deleted.", "success")
     return redirect(url_for("welcome"))
+
 
 @app.route("/forgot-password", methods=["GET", "POST"])
 def forgot_password():
@@ -265,6 +277,7 @@ def forgot_password():
 
     return render_template("forgot-password.html")
 
+
 # -------------------- RUN --------------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

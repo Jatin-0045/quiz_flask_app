@@ -81,7 +81,7 @@ Live demo link will be added here after deployment:
 Live Demo: https://your-app-link.com
 
 👤 Author
-Your Name
+Jatin Morwal
 
 ⭐ Support
 If you liked this project, give it a ⭐ on GitHub!

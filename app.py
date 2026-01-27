@@ -22,7 +22,14 @@ def get_db_connection():
         database=os.environ.get("DB_NAME", "intelliquiz")
     )
 
-db = get_db_connection()
+def get_db():
+    try:
+        conn = get_db_connection()
+        if conn.is_connected():
+            return conn
+    except Error as e:
+        print("Database connection error:", e)
+        return None
 
 
 # -------------------- AUTH --------------------
@@ -33,6 +40,11 @@ def welcome():
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
+    db = get_db()
+    if not db:
+        flash("Database unavailable.", "error")
+        return redirect(url_for("welcome"))
+
     if request.method == "POST":
         username = request.form["username"].strip()
         password = request.form["password"]
@@ -47,16 +59,22 @@ def signup():
             db.commit()
             flash("Account created successfully.", "success")
             return redirect(url_for("login"))
-        except Exception as e:
+        except Exception:
             flash("Username already exists.", "error")
         finally:
             cur.close()
+            db.close()
 
     return render_template("signup.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    db = get_db()
+    if not db:
+        flash("Database unavailable.", "error")
+        return redirect(url_for("welcome"))
+
     if request.method == "POST":
         username = request.form["username"].strip()
         password = request.form["password"]
@@ -65,6 +83,7 @@ def login():
         cur.execute("SELECT * FROM users WHERE TRIM(username)=%s", (username,))
         user = cur.fetchone()
         cur.close()
+        db.close()
 
         if user and check_password_hash(user["password_hash"], password):
             session["user_id"] = user["id"]
@@ -161,6 +180,11 @@ def get_questions():
 # -------------------- RESULT --------------------
 @app.route("/result", methods=["POST"])
 def result():
+    db = get_db()
+    if not db:
+        flash("Database unavailable.", "error")
+        return redirect(url_for("index"))
+
     score = int(request.form.get("score", 0))
     total = int(request.form.get("total", 0))
     percentage = (score / total) * 100 if total else 0
@@ -184,6 +208,7 @@ def result():
     )
     db.commit()
     cur.close()
+    db.close()
 
     return render_template("result.html", score=score, total=total, msg=msg)
 
@@ -191,6 +216,11 @@ def result():
 # -------------------- HISTORY --------------------
 @app.route("/history")
 def history():
+    db = get_db()
+    if not db:
+        flash("Database unavailable.", "error")
+        return redirect(url_for("index"))
+
     cur = db.cursor(dictionary=True)
     cur.execute(
         "SELECT score,total,percentage,created_at FROM quiz_history WHERE user_id=%s ORDER BY created_at DESC",
@@ -198,6 +228,7 @@ def history():
     )
     records = cur.fetchall()
     cur.close()
+    db.close()
     return render_template("history.html", records=records)
 
 
@@ -206,6 +237,11 @@ def delete_history():
     if "user_id" not in session:
         return redirect(url_for("login"))
 
+    db = get_db()
+    if not db:
+        flash("Database unavailable.", "error")
+        return redirect(url_for("index"))
+
     cur = db.cursor()
     cur.execute(
         "DELETE FROM quiz_history WHERE user_id = %s",
@@ -213,6 +249,7 @@ def delete_history():
     )
     db.commit()
     cur.close()
+    db.close()
 
     flash("Quiz history deleted successfully.", "success")
     return redirect(url_for("history"))
@@ -222,6 +259,11 @@ def delete_history():
 def delete_account():
     if "user_id" not in session:
         return redirect(url_for("welcome"))
+
+    db = get_db()
+    if not db:
+        flash("Database unavailable.", "error")
+        return redirect(url_for("index"))
 
     password = request.form.get("password")
     user_id = session["user_id"]
@@ -238,6 +280,7 @@ def delete_account():
     cur.execute("DELETE FROM users WHERE id = %s", (user_id,))
     db.commit()
     cur.close()
+    db.close()
 
     session.clear()
     flash("Your account has been permanently deleted.", "success")
@@ -246,6 +289,11 @@ def delete_account():
 
 @app.route("/forgot-password", methods=["GET", "POST"])
 def forgot_password():
+    db = get_db()
+    if not db:
+        flash("Database unavailable.", "error")
+        return redirect(url_for("welcome"))
+
     if request.method == "POST":
         username = request.form.get("username").strip()
         new_password = request.form.get("new_password")
@@ -262,6 +310,7 @@ def forgot_password():
         if not user:
             flash("User not found.", "error")
             cur.close()
+            db.close()
             return redirect(url_for("forgot_password"))
 
         hashed = generate_password_hash(new_password)
@@ -271,6 +320,7 @@ def forgot_password():
         )
         db.commit()
         cur.close()
+        db.close()
 
         flash("Password updated successfully. Please login.", "success")
         return redirect(url_for("login"))

@@ -16,10 +16,11 @@ def get_db_connection():
     If running locally, it will use local credentials.
     """
     return mysql.connector.connect(
-        host=os.environ.get("DB_HOST", "localhost"),
-        user=os.environ.get("DB_USER", "root"),
-        password=os.environ.get("DB_PASSWORD", "root123"),
-        database=os.environ.get("DB_NAME", "intelliquiz")
+        host=os.environ.get("MYSQLHOST"),
+        user=os.environ.get("MYSQLUSER"),
+        password=os.environ.get("MYSQLPASSWORD"),
+        database=os.environ.get("MYSQLDATABASE"),
+        port=int(os.environ.get("MYSQLPORT", 3306))
     )
 
 def get_db():

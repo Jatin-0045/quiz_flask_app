@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>IntelliQuiz</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon/intelliquiz-favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div class="container start">
+
+    <div class="navbar">
+        <h1>IntelliQuiz</h1>
+        <div class="nav-right">
+            <a href="/history" class="nav-btn">View History</a>
+            <button class="btn btn-danger logout-btn" onclick="openDeleteDialog()">
+                Delete Account
+            </button>
+            <a href="/logout" class="btn btn-danger logout-btn">Logout</a>
+        </div>
+    </div>
+
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h1>Welcome to IntelliQuiz</h1>
+    <p class="subtitle">Test your knowledge and track your progress</p>
+
+    <form method="POST" action="/index">
+        <div class="row">
+            <label>Category</label>
+            <select name="subject">
+                <option value="General Knowledge">General Knowledge</option>
+                <option value="Science & Nature">Science & Nature</option>
+                <option value="Computers" selected>Computers</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Sports">Sports</option>
+                <option value="Geography">Geography</option>
+                <option value="History">History</option>
+                <option value="Politics">Politics</option>
+                <option value="General Entertainment">General Entertainment</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <label>Difficulty</label>
+            <select name="difficulty">
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard" selected>Hard</option>
+            </select>
+        </div>
+
+        <button type="submit" class="primary">Start Quiz</button>
+    </form>
+
+    <!-- DELETE ACCOUNT MODAL -->
+    <div id="deleteDialog" class="modal hidden">
+        <div class="modal-content">
+            <h2>Delete Account</h2>
+
+            <p class="modal-text">
+                This will permanently delete your account and quiz history.
+                <br><strong>This action cannot be undone.</strong>
+            </p>
+
+            <form id="deleteForm" method="POST" action="/delete-account">
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                    class="modal-input"
+                />
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-danger">
+                        Yes, Delete
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeDeleteDialog()">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>

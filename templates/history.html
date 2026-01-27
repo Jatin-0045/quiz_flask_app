@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>History | IntelliQuiz</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon/intelliquiz-favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="history-page">
+
+<div class="container start">
+
+    <div class="navbar">
+        <h1>IntelliQuiz</h1>
+        <div>
+            <a href="/index" class="nav-btn">Home</a>
+            <a href="/logout" class="logout-btn" style="margin-left:10px;">Logout</a>
+        </div>
+    </div>
+
+    <div class="stats">
+        <h2>Welcome, {{ session.username }}</h2>
+        <p>Total Quizzes: {{ records|length }}</p>
+        <p>Best Score: {{ records|map(attribute='percentage')|max if records else 0 }}%</p>
+    </div>
+
+    <table class="history-table">
+        <tr>
+            <th>Date</th>
+            <th>Score</th>
+            <th>Total</th>
+            <th>Percentage</th>
+        </tr>
+        {% for r in records %}
+        <tr>
+            <td>{{ r.created_at }}</td>
+            <td>{{ r.score }}</td>
+            <td>{{ r.total }}</td>
+            <td>{{ r.percentage }}%</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+<form action="/delete-history" method="POST" id="deleteForm">
+    <button type="button" class="btn btn-danger delete-btn" onclick="openDeleteDialog()">
+        Delete History
+    </button>
+</form>
+
+<!-- DELETE CONFIRM DIALOG -->
+<div class="popup hidden" id="deleteDialog">
+    <div class="popup-card delete-card">
+        <h2>Delete History?</h2>
+        <p>This action cannot be undone.</p>
+
+        <div class="dialog-actions">
+            <button class="btn btn-danger delete-btn" onclick="confirmDelete()">
+                Yes, Delete
+            </button>
+            <button class="btn btn-primary" onclick="closeDeleteDialog()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/app.js"></script>
+
+</body>
+</html>

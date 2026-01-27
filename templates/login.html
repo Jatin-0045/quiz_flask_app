@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login | IntelliQuiz</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon/intelliquiz-favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="auth-page">
+
+<div class="container start">
+    <h1>Login</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, msg in messages %}
+            <div class="flash-message flash-{{ category }}">
+                {{ msg }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    <form method="POST">
+        <div class="row">
+            <label>Username</label>
+            <input type="text" name="username" required>
+        </div>
+
+        <div class="row password-field">
+            <label>Password</label>
+            <input type="password" name="password" required>
+            <span class="toggle-eye" onclick="togglePassword(this)">🙈</span>
+        </div>
+
+        <div class="forgot">
+            <a href="/forgot-password" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="primary">Login</button>
+
+        <div class="auth-switch">
+            <span>Don't have an account?</span>
+            <a href="{{ url_for('signup') }}" class="primary outline">Sign Up</a>
+        </div>
+    </form>
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>

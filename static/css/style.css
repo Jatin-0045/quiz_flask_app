@@ -1,0 +1,924 @@
+/* =============================== */
+/* GLOBAL RESET & BASE             */
+/* =============================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    background: #020617;
+    color: #e5e7eb;
+    font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =============================== */
+/* MAIN CONTAINER                  */
+/* =============================== */
+
+.container {
+    width: 100%;
+    background: #020617;
+    border-radius: 18px;
+    border: 1px solid #1f2933;
+}
+
+/* Default (quiz / pages) */
+.container:not(.auth-page .container) {
+    max-width: 900px;
+    padding: 48px 56px;
+}
+
+/* Auth pages override */
+.auth-page .container {
+    max-width: 420px;
+    padding: 40px 36px;
+    text-align: center;
+}
+
+/* =============================== */
+/* WELCOME PAGE TEXT               */
+/* =============================== */
+
+.start {
+    text-align: center;
+}
+
+.start h1 {
+    font-size: 2.6rem;
+    margin-bottom: 10px;
+    color: #38bdf8;
+}
+
+.start .subtitle {
+    color: #94a3b8;
+    font-size: 1.05rem;
+    margin-bottom: 36px;
+}
+
+/* =============================== */
+/* FORM ROWS                       */
+/* =============================== */
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.auth-page .row {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.row label {
+    color: #94a3b8;
+}
+
+.auth-page .row label {
+    margin-bottom: 6px;
+}
+
+.row select,
+.row input {
+    width: 180px;
+    padding: 10px;
+    background: #020617;
+    color: #e5e7eb;
+    border: 1px solid #1f2933;
+    border-radius: 8px;
+}
+
+.auth-page .row input {
+    width: 100%;
+}
+
+/* =============================== */
+/* AUTH INPUT (FROM auth.css)      */
+/* =============================== */
+
+.auth-input {
+    width: 100%;
+    padding: 14px 16px;
+    background: #020617;
+    color: #e5e7eb;
+    border: 1px solid #1f2933;
+    border-radius: 10px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.auth-page .password-field .auth-input {
+    margin-bottom: 0;
+}
+/* =============================== */
+/* BUTTON SYSTEM (GLOBAL, SAFE)    */
+/* =============================== */
+
+.btn {
+    padding: 14px 30px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 999px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.25s ease;
+}
+
+/* Neon Blue — SOLID BLOCK (default everywhere) */
+.btn-primary,
+.primary {
+    background: #38bdf8;
+    color: #020617;
+    border: none;
+    box-shadow: none;
+}
+
+.btn-primary:hover,
+.primary:hover {
+    box-shadow: 0 0 18px rgba(56, 189, 248, 0.8);
+    transform: translateY(-1px);
+}
+
+.welcome-buttons {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.welcome-buttons .primary {
+    width: auto;
+    padding: 12px 24px;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+/* Old behavior: glow only on hover */
+.start .primary {
+    box-shadow: none;
+}
+
+.start .primary:hover {
+    box-shadow: 0 10px 28px rgba(56, 189, 248, 0.35);
+}
+
+/* Red Hollow */
+
+.btn-danger:hover,
+.logout-btn:hover,
+.delete-btn:hover {
+    background: #ef4444;
+    color: #020617;
+    box-shadow: 0 0 18px rgba(239, 68, 68, 0.9);
+}
+
+/* =============================== */
+/* LINKS                           */
+/* =============================== */
+
+.auth-link,
+.forgot-link {
+    color: #38bdf8;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+/* =============================== */
+/* FLASH MESSAGES                  */
+/* =============================== */
+
+.flash-error {
+    color: #ff6b6b;
+    margin: 10px 0;
+    font-weight: 600;
+    text-align: center;
+}
+
+.flash-success {
+    color: #86efac;
+    margin: 10px 0;
+    font-weight: 600;
+    text-align: center;
+}
+
+.error-text {
+    color: #ff4d4d;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* =============================== */
+/* QUIZ PAGE (SCOPED)              */
+/* =============================== */
+
+.quiz-page .quiz-container {
+    width: 70%;
+    max-width: 900px;
+    background: #020617;
+    padding: 40px 50px;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+.quiz-page .question {
+    margin-bottom: 32px;
+}
+
+.quiz-page .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.quiz-page .option {
+    padding: 16px 18px;
+    border-radius: 8px;
+    border: 2px solid #334155;
+    background: #020617;
+    color: #e5e7eb;
+}
+
+.quiz-page .option.correct {
+    border-color: #22c55e;
+    color: #22c55e;
+}
+
+.quiz-page .option.wrong {
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+.quiz-page .footer {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    color: #94a3b8;    
+    margin-top: 28px;
+}
+.quiz-page #restartBtn {
+    margin-top: 32px;
+}
+
+/* =============================== */
+/* QUIZ — QUIT BUTTON ONLY         */
+/* =============================== */
+
+.quiz-page .quit-btn {
+    background: transparent;
+    border: 2px solid #ef4444;
+    color: #ef4444;
+    padding: 10px 18px;
+    border-radius: 6px; /* square-ish */
+    cursor: pointer;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.quiz-page .quit-btn:hover {
+    background: rgba(239, 68, 68, 0.12);
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
+}
+
+/* =============================== */
+/* RESULT PAGE                     */
+/* =============================== */
+
+.result {
+    text-align: center;
+}
+
+.result .result-score {
+    margin-bottom: 32px;
+}
+
+/* Restart stays red hollow */
+.result a {
+    margin-top: 30px;
+}
+
+/* =============================== */
+/* NAVBAR                          */
+/* =============================== */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* =============================== */
+/* HISTORY PAGE                    */
+/* =============================== */
+
+.history-page {
+    align-items: flex-start;
+    padding-top: 40px;
+}
+
+.history-table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.04);
+}
+
+.history-table th,
+.history-table td {
+    padding: 14px 16px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+}
+
+/* Hide */
+.hidden {
+    display: none;
+}
+
+@keyframes popupFade {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* =============================== */
+/* MOBILE                          */
+/* =============================== */
+
+@media (max-width: 768px) {
+    .quiz-page .options {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =============================== */
+/* AUTH & WELCOME BUTTON TUNING    */
+/* =============================== */
+
+/* Welcome page Login / Signup */
+.welcome-buttons .primary {
+    padding: 14px 34px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    border-radius: 999px;
+}
+
+/* Auth pages (Login / Signup submit buttons) */
+.auth-page .primary {
+    width: 100%;
+    padding: 14px 0;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* Subtle hover polish (no hollow effect) */
+.welcome-buttons .primary:hover,
+.auth-page .primary:hover {
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.85);
+}
+
+/* Increase spacing between forgot password & login button */
+.auth-page .forgot {
+    margin-bottom: 20px;
+}
+
+/* =============================== */
+/* INDEX PAGE – BUTTON FIXES ONLY */
+/* =============================== */
+
+/* Start Quiz button */
+.container.start .primary {
+    width: auto;
+    padding: 14px 36px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    background: #3b82f6;
+    color: #ffffff;
+    border: none;
+    box-shadow: none;
+}
+
+.container.start .primary:hover {
+    box-shadow: 0 0 14px rgba(59, 130, 246, 0.45);
+}
+
+/* View History button (top-right) */
+.navbar .nav-btn {
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    background: #3b82f6;
+    color: #ffffff;
+    text-decoration: none;
+    border: none;
+}
+
+.navbar .nav-btn:hover {
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.45);
+}
+
+/* Logout button – SOLID RED (not hollow) */
+.navbar .logout-btn {
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    background: #ef4444;
+    color: #ffffff;
+    border: none;
+}
+
+.navbar .logout-btn:hover {
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.45);
+}
+
+/* =============================== */
+/* HOLLOW RED – LOGOUT & DELETE    */
+/* INDEX + HISTORY ONLY            */
+/* =============================== */
+
+/* Logout button (index + navbar) */
+.navbar .logout-btn {
+    background: transparent;
+    color: #ef4444;
+    border: 2px solid #ef4444;
+    box-shadow: none;
+}
+
+.navbar .logout-btn:hover {
+    background: rgba(239, 68, 68, 0.12);
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Delete history button */
+.delete-btn {
+    background: transparent;
+    color: #ef4444;
+    border: 2px solid #ef4444;
+    box-shadow: none;
+}
+
+.delete-btn:hover {
+    background: rgba(239, 68, 68, 0.12);
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+}
+
+/* =============================== */
+/* REMOVE UNDERLINE FROM LOGOUT    */
+/* =============================== */
+
+.logout-btn {
+    text-decoration: none;
+}
+
+.logout-btn:hover,
+.logout-btn:focus,
+.logout-btn:active {
+    text-decoration: none;
+}
+
+/* =============================== */
+/* NAV RIGHT BUTTON SPACING        */
+/* =============================== */
+
+.nav-right {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.result-msg {
+    color: #38bdf8;
+    font-size: 1.5rem;
+    margin: 20px 0;
+    margin-bottom: 22px;
+}
+
+.restart-btn {
+    background: transparent;
+    border: 2px solid #ef4444;
+    color: #ef4444;
+    padding: 10px 18px;
+    border-radius: 6px; /* square-ish */
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.restart-btn:hover {
+    background: rgba(239, 68, 68, 0.12);
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
+}
+
+/* =============================== */
+/* DELETE CONFIRM DIALOG           */
+/* =============================== */
+
+.delete-card {
+    border: 1px solid #ef4444;
+    box-shadow: 0 0 30px rgba(239, 68, 68, 0.35);
+}
+
+.delete-card h2 {
+    color: #ef4444;
+    margin-bottom: 10px;
+}
+
+.delete-card p {
+    color: #94a3b8;
+    margin-bottom: 26px;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+}
+
+/* keep red buttons hollow */
+.delete-btn {
+    background: transparent;
+    border: 2px solid #ef4444;
+    color: #ef4444;
+    border-radius: 6px;
+    padding: 10px 18px;
+    text-decoration: none;
+}
+
+.delete-btn:hover {
+    background: rgba(239, 68, 68, 0.12);
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+}
+
+/* =============================== */
+/* DELETE HISTORY CONFIRM POPUP    */
+/* =============================== */
+
+/* Overlay */
+.popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.75); /* site background tint */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Dialog box */
+.popup-card {
+    background: #020617;              /* SAME AS WEBSITE */
+    border: 1px solid #1f2933;
+    border-radius: 14px;
+    padding: 28px 32px;
+    width: 380px;
+    text-align: center;
+
+    /* IMPORTANT: NO GLOW */
+    box-shadow: none;
+}
+
+/* Title */
+.popup-card h2 {
+    color: #e5e7eb;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+/* Text */
+.popup-card p {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+}
+
+/* Button row */
+.dialog-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+/* YES + CANCEL — SAME SHAPE */
+.dialog-actions button {
+    min-width: 120px;
+    padding: 10px 18px;
+    border-radius: 8px;   /* same shape */
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+/* Cancel button */
+.dialog-actions .btn-cancel {
+    background: transparent;
+    border: 1px solid #94a3b8;
+    color: #94a3b8;
+}
+
+.dialog-actions .btn-cancel:hover {
+    box-shadow: 0 0 10px rgba(148, 163, 184, 0.35);
+}
+
+/* Yes, Delete button */
+.dialog-actions .btn-confirm {
+    background: transparent;
+    border: 1px solid #ef4444;
+    color: #ef4444;
+}
+
+.dialog-actions .btn-confirm:hover {
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.45);
+}
+
+/* Hide helper */
+.popup.hidden {
+    display: none;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 25px;
+    width: 380px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+}
+
+.modal-content h2 {
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    font-size: 14px;
+    color: #444;
+}
+
+.modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.btn-secondary {
+    border: 1px solid #aaa;
+    background: transparent;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* ===== Delete Account Modal ===== */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: #0f172a; /* same dark site tone */
+    color: #e5e7eb;
+    padding: 28px;
+    width: 380px;
+    border-radius: 14px;
+    transform: scale(0.95);
+    opacity: 0;
+    animation: popupIn 0.25s ease forwards;
+}
+
+/* Smooth entrance */
+@keyframes popupIn {
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-text {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 14px 0 20px;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background: #020617;
+    color: #e5e7eb;
+    margin-bottom: 18px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* SAME SHAPE buttons */
+.modal-actions .btn {
+    flex: 1;
+    border-radius: 8px;
+}
+
+/* Hover glow ONLY on buttons */
+.modal-actions .btn:hover {
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+}
+
+.flash-message {
+    margin: 15px 0;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease;
+}
+
+.flash-success {
+    background: #1f7a5c;
+    color: #eafff7;
+}
+
+.flash-error {
+    background: #7a1f1f;
+    color: #ffecec;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+}
+
+.auth-switch {
+    margin-top: 16px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+}
+
+.auth-switch span {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 14px;
+}
+
+.auth-page .row.password-field .toggle-eye {
+    top: calc(50% + 12px);
+}
+
+/* outline button – matches primary style */
+.primary.outline {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: 2px solid #4f46e5; /* same as primary */
+    background: transparent;
+    color: #4f46e5;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.primary.outline:hover {
+    background: #4f46e5;
+    color: #fff;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 42px;
+}
+
+.eye {
+    position: absolute;
+    right: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    user-select: none;
+}
+
+.password-field {
+    position: relative;
+}
+
+.password-field input {
+    width: 100%;
+    padding-right: 42px;
+}
+
+.toggle-eye {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+    user-select: none;
+}
+
+.toggle-eye:hover {
+    color: #000;
+}
+
+.toggle-eye:hover {
+    color: #000;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 30px; /* space for the eye */
+}
+
+.password-wrapper .toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px;
+    opacity: 0.6;
+    user-select: none;
+}
+
+.password-wrapper .toggle-password:hover {
+    opacity: 1;
+}
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 42px;
+}
+
+.password-wrapper .toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px;
+    opacity: 0.6;
+}
+
+.password-wrapper .toggle-password:hover {
+    opacity: 1;
+}
+

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Result | IntelliQuiz</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon/intelliquiz-favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div class="container result">
+
+    <h1>Your Result</h1>
+
+    <h2 class="result-msg">
+        {{msg}}
+    </h2>
+
+    <p class="result-score">
+        Your score: <strong>{{ score }}</strong> out of <strong>{{ total }}</strong>
+    </p>
+
+    <a href="/index" class="restart-btn">Restart Quiz</a>
+
+</div>
+
+
+</body>
+</html>

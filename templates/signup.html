@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">    
+    <title>Sign Up | IntelliQuiz</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon/intelliquiz-favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="auth-page">
+
+<div class="container">
+    <h1>Signup</h1>
+
+    {% for msg in get_flashed_messages(category_filter=["error"]) %}
+        <div class="flash-message flash-error">{{ msg }}</div>
+    {% endfor %}
+
+    <form method="post">
+        <div class="row">
+            <input class="auth-input" name="username" placeholder="Username" required>
+        </div>
+        
+        <div class="row">
+            <div class="password-field">
+                <input class="auth-input" type="password" name="password" placeholder="Password" required>
+                <span class="toggle-eye" onclick="togglePassword(this)">🙈</span>
+            </div>
+        </div>
+
+        <button class="primary" type="submit">Create Account</button>
+    </form>
+    <p>
+        <a class="auth-link" href="/login">Already have an account?</a>
+    </p>
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>

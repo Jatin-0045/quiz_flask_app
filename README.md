@@ -128,7 +128,7 @@ http://localhost:5000
 
 🖼️ Screenshots
 
-Homepage / Login page:  
+Homepage:  
 ![Homepage](static/screenshots/homepage.png)
 
 Login page:  

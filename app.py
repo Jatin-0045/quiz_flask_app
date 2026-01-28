@@ -15,6 +15,12 @@ def get_db_connection():
     Connect to MySQL using Railway environment variables.
     If running locally, it will use local credentials.
     """
+    print(
+    "Connecting to:",
+    os.environ.get("MYSQLHOST"),
+    os.environ.get("MYSQLDATABASE"),
+    os.environ.get("MYSQLPORT")
+    )
     return mysql.connector.connect(
         host=os.environ.get("MYSQLHOST"),
         user=os.environ.get("MYSQLUSER"),
@@ -22,13 +28,6 @@ def get_db_connection():
         database=os.environ.get("MYSQLDATABASE"),
         port=int(os.environ.get("MYSQLPORT", 3306))
     )
-    print(
-    "Connecting to:",
-    os.environ.get("MYSQLHOST"),
-    os.environ.get("MYSQLDATABASE"),
-    os.environ.get("MYSQLPORT")
-)
-
 
 def get_db():
     try:

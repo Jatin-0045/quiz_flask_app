@@ -1,34 +1,51 @@
-Quiz Flask App
-A simple and interactive quiz application built using Flask. Users can sign up, log in, take quizzes, view results, and track their quiz history.
+# Quiz Flask App
 
-🔥 Features
-•	User Signup and Login
-•	Secure Password Hashing
-•	Quiz Questions with Scoring
-•	Result Page with Score Summary
-•	Quiz History for Logged-in Users
-•	Responsive UI using Bootstrap
+A full‑stack, interactive quiz application built with **Flask** and **MySQL**, featuring secure authentication, dynamic quizzes, result tracking, and persistent user history. The project is deployed on **Railway** and designed to be resume‑ and internship‑ready.
 
-🧠 Tech Stack
-Technology	Description
-Python	Backend logic
-Flask	Web framework
-SQLite	Database
-HTML/CSS	Frontend
-Bootstrap	Responsive UI
-JavaScript	Quiz logic
+🌐 **Live Demo**
+👉 [https://web-production-79f7d.up.railway.app](https://web-production-79f7d.up.railway.app)
 
-📁 Project Structure
+---
+
+## 🔥 Features
+
+* User signup, login, logout
+* Secure password hashing using Werkzeug
+* Dynamic quiz questions (Open Trivia API)
+* Score calculation with result feedback
+* Quiz history tracking for logged‑in users
+* Forgot password & delete account functionality
+* Session management
+* Responsive UI with Bootstrap
+
+---
+
+## 🧠 Tech Stack
+
+| Technology | Description                |
+| ---------- | -------------------------- |
+| Python     | Backend logic              |
+| Flask      | Web framework              |
+| MySQL      | Database (Railway + Local) |
+| HTML / CSS | Frontend                   |
+| Bootstrap  | Responsive UI              |
+| JavaScript | Quiz logic & API calls     |
+| Gunicorn   | Production WSGI server     |
+| Railway    | Deployment platform        |
+
+---
+
+## 📁 Project Structure
+
+```
 quiz_flask_app/
 │
 ├── app.py
 ├── requirements.txt
+├── Procfile
+├── .env.example
 ├── db/
 │   └── schema.sql
-├── instance/
-│   └── (database file)
-├── utils/
-│   └── auth.py
 ├── static/
 │   ├── css/
 │   │   └── style.css
@@ -36,52 +53,123 @@ quiz_flask_app/
 │   │   └── app.js
 │   └── favicon/
 │       └── intelliquiz-favicon.svg
-└── templates/
-    ├── index.html
-    ├── login.html
-    ├── signup.html
-    ├── quiz.html
-    ├── result.html
-    ├── history.html
-    ├── forgot-password.html
-    └── welcome.html
+├── templates/
+│   ├── welcome.html
+│   ├── signup.html
+│   ├── login.html
+│   ├── index.html
+│   ├── quiz.html
+│   ├── result.html
+│   ├── history.html
+│   └── forgot-password.html
+└── screenshots/
+```
 
-🚀 Installation
-1.	1. Clone the repository
+---
+
+## 🚀 Local Installation & Setup
+
+### 1️⃣ Clone the repository
+
+```bash
 git clone https://github.com/yourusername/quiz_flask_app.git
 cd quiz_flask_app
-2.	2. Create a virtual environment
-python -m venv venv
-3.	3. Activate the virtual environment (Windows)
-venv\Scripts\activate
-4.	4. Install dependencies
-pip install -r requirements.txt
-5.	5. Run the app
-python app.py
-Open your browser:
-http://localhost:5000
+```
 
-📌 Database Setup
-The database schema is located in:
+### 2️⃣ Create & activate virtual environment (Windows)
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 3️⃣ Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4️⃣ Configure environment variables
+
+Create a `.env` file:
+
+```
+MYSQLHOST=localhost
+MYSQLUSER=root
+MYSQLPASSWORD=your_password
+MYSQLDATABASE=intelliquiz
+MYSQLPORT=3306
+SECRET_KEY=intelliquiz_secret_key
+```
+
+### 5️⃣ Setup database
+
+Run the schema file located at:
+
+```
 db/schema.sql
-Run the SQL script to create the required tables.
+```
+
+### 6️⃣ Run the app
+
+```bash
+python app.py
+```
+
+Open in browser:
+
+```
+http://localhost:5000
+```
+
+---
+
+## 🖼️ Screenshots
 
 🖼️ Screenshots
-Add screenshots to the screenshots/ folder and update the file names accordingly.
-Homepage / Login page
-Quiz page
-Result page
 
-🌐 Deployment
-You can deploy this app on platforms like:
-•	Render
-•	Heroku
-•	PythonAnywhere
-Live demo link will be added here after deployment:
-Live Demo: https://your-app-link.com
+Homepage / Login page:  
+![Homepage](static/screenshots/homepage.png)
 
-👤 Author
-Jatin Morwal
+Signup page:  
+![Signup](static/screenshots/signup.png)
 
-⭐ Support
-If you liked this project, give it a ⭐ on GitHub!
+Quiz page:  
+![Quiz](static/screenshots/quiz.png)
+
+History page:  
+![History](static/screenshots/history.png)
+
+Result page:  
+![Result](static/screenshots/result.png)
+
+---
+
+## 🌐 Deployment (Railway)
+
+This project is deployed on **Railway** using **Gunicorn**.
+
+**Key Deployment Notes:**
+
+* Uses Railway MySQL service
+* Environment variables configured via Railway dashboard
+* `Procfile`:
+
+```
+web: gunicorn app:app
+```
+
+🔗 **Live Demo:**
+[https://web-production-79f7d.up.railway.app](https://web-production-79f7d.up.railway.app)
+
+---
+
+## 👤 Author
+
+**Jatin Morwal**
+
+---
+
+## ⭐ Support
+
+If you found this project useful, please consider giving it a ⭐ on GitHub — it really helps!

@@ -131,6 +131,9 @@ http://localhost:5000
 Homepage / Login page:  
 ![Homepage](static/screenshots/homepage.png)
 
+Login page:  
+![Login](static/screenshots/login.png)
+
 Signup page:  
 ![Signup](static/screenshots/signup.png)
 

@@ -66,8 +66,9 @@ def signup():
             db.commit()
             flash("Account created successfully.", "success")
             return redirect(url_for("login"))
-        except Exception:
-            flash("Username already exists.", "error")
+        except Exception as e:
+            print("SIGNUP ERROR:", e)
+            flash(str(e), "error")
         finally:
             cur.close()
             db.close()
@@ -337,4 +338,5 @@ def forgot_password():
 
 # -------------------- RUN --------------------
 if __name__ == "__main__":
-    app.run()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)

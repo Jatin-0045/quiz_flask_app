@@ -1,9 +1,9 @@
-# Quiz Flask App
+# IntelliQuiz – Full Stack Quiz Web Application
 
-A full‑stack, interactive quiz application built with **Flask** and **MySQL**, featuring secure authentication, dynamic quizzes, result tracking, and persistent user history. The project is deployed on **Railway** and designed to be resume‑ and internship‑ready.
+A full-stack quiz web application built using Flask and MySQL, featuring secure user authentication, real-time quiz generation via API integration, and persistent performance tracking. Designed with production-ready practices including environment-based configuration and deployment on cloud platforms.
 
-🌐 **Live Demo**
-👉 [https://web-production-79f7d.up.railway.app](https://web-production-79f7d.up.railway.app)
+🌐 **Live Demo**  
+Currently not hosted (Railway trial expired). The application can be run locally by following the steps in the **Local Installation & Setup** section below.
 
 ---
 
@@ -13,10 +13,18 @@ A full‑stack, interactive quiz application built with **Flask** and **MySQL**,
 * Secure password hashing using Werkzeug
 * Dynamic quiz questions (Open Trivia API)
 * Score calculation with result feedback
-* Quiz history tracking for logged‑in users
+* Quiz history tracking for logged-in users
 * Forgot password & delete account functionality
 * Session management
 * Responsive UI with Bootstrap
+
+---
+
+## 🚀 Key Highlights
+
+- Implemented environment-based database configuration for both local and cloud deployments.
+- Handled real-world deployment challenges including MySQL connectivity and service configuration.
+- Designed modular Flask architecture with clear separation of routes, templates, and static assets.
 
 ---
 
@@ -67,6 +75,9 @@ quiz_flask_app/
 
 ---
 
+
+---
+
 ## 🚀 Local Installation & Setup
 
 ### 1️⃣ Clone the repository
@@ -77,52 +88,33 @@ cd quiz_flask_app
 ```
 
 ### 2️⃣ Create & activate virtual environment (Windows)
-
-```bash
-python -m venv venv
+python 
+-m venv venv
 venv\Scripts\activate
-```
 
 ### 3️⃣ Install dependencies
-
-```bash
 pip install -r requirements.txt
-```
 
 ### 4️⃣ Configure environment variables
 
-Create a `.env` file:
-
-```
+Create a .env file:
 MYSQLHOST=localhost
 MYSQLUSER=root
 MYSQLPASSWORD=your_password
 MYSQLDATABASE=intelliquiz
 MYSQLPORT=3306
 SECRET_KEY=intelliquiz_secret_key
-```
 
 ### 5️⃣ Setup database
 
 Run the schema file located at:
-
-```
 db/schema.sql
-```
 
 ### 6️⃣ Run the app
-
-```bash
 python app.py
-```
 
-Open in browser:
-
-```
+### Open in browser:
 http://localhost:5000
-```
-
----
 
 ## 🖼️ Screenshots
 
@@ -150,23 +142,17 @@ Result page:
 
 ## 🌐 Deployment (Railway)
 
-This project is deployed on **Railway** using **Gunicorn**.
+This project was deployed on **Railway** using **Gunicorn**.
 
 **Key Deployment Notes:**
 
 * Uses Railway MySQL service
 * Environment variables configured via Railway dashboard
-* `Procfile`:
 
+* `Procfile`:
 ```
 web: gunicorn app:app
 ```
-
-🔗 **Live Demo:**
-[https://web-production-79f7d.up.railway.app](https://web-production-79f7d.up.railway.app)
-
----
-
 ## 👤 Author
 
 **Jatin Morwal**

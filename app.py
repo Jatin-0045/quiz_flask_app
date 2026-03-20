@@ -12,23 +12,24 @@ app.secret_key = os.environ.get("SECRET_KEY", "intelliquiz_secret_key")
 # -------------------- DATABASE --------------------
 def get_db_connection():
     """
-    Connect to MySQL using Railway environment variables.
-    If running locally, it will use local credentials.
+    Force LOCAL DB when running locally
     """
-    print(
-    "Connecting to:",
-    os.environ.get("MYSQLHOST"),
-    os.environ.get("MYSQLDATABASE"),
-    os.environ.get("MYSQLPORT")
-    )
-    return mysql.connector.connect(
-        host=os.environ.get("MYSQLHOST"),
-        user=os.environ.get("MYSQLUSER"),
-        password=os.environ.get("MYSQLPASSWORD"),
-        database=os.environ.get("MYSQLDATABASE"),
-        port=int(os.environ.get("MYSQLPORT", 3306))
-    )
+    host = "localhost"
+    user = "root"
+    password = "root123"   # change if needed
+    database = "intelliquiz"
+    port = 3306
 
+    print("Connecting to:", host, database, port)
+
+    return mysql.connector.connect(
+        host=host,
+        user=user,
+        password=password,
+        database=database,
+        port=port
+    )
+    
 def get_db():
     try:
         conn = get_db_connection()
@@ -47,12 +48,12 @@ def welcome():
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
-    db = get_db()
-    if not db:
-        flash("Database unavailable.", "error")
-        return redirect(url_for("welcome"))
-
     if request.method == "POST":
+        db = get_db()
+        if not db:
+            flash("Database unavailable.", "error")
+            return redirect(url_for("welcome"))
+
         username = request.form["username"].strip()
         password = request.form["password"]
 
@@ -75,15 +76,14 @@ def signup():
 
     return render_template("signup.html")
 
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    db = get_db()
-    if not db:
-        flash("Database unavailable.", "error")
-        return redirect(url_for("welcome"))
-
     if request.method == "POST":
+        db = get_db()
+        if not db:
+            flash("Database unavailable.", "error")
+            return redirect(url_for("welcome"))
+
         username = request.form["username"].strip()
         password = request.form["password"]
 
@@ -101,7 +101,6 @@ def login():
         flash("Invalid username or password", "error")
 
     return render_template("login.html")
-
 
 @app.route("/logout")
 def logout():
@@ -335,8 +334,8 @@ def forgot_password():
 
     return render_template("forgot-password.html")
 
-
 # -------------------- RUN --------------------
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+    

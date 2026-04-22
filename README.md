@@ -113,8 +113,6 @@ db/schema.sql
 ### 6️⃣ Run the app
 python app.py
 
-### Open in browser:
-http://localhost:5000
 
 ## 🖼️ Screenshots
 

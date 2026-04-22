@@ -72,46 +72,7 @@ quiz_flask_app/
 │   └── forgot-password.html
 └── screenshots/
 ```
-
 ---
-
-
----
-
-## 🚀 Local Installation & Setup
-
-### 1️⃣ Clone the repository
-
-```bash
-git clone https://github.com/yourusername/quiz_flask_app.git
-cd quiz_flask_app
-```
-
-### 2️⃣ Create & activate virtual environment (Windows)
-python 
--m venv venv
-venv\Scripts\activate
-
-### 3️⃣ Install dependencies
-pip install -r requirements.txt
-
-### 4️⃣ Configure environment variables
-
-Create a .env file:
-MYSQLHOST=localhost
-MYSQLUSER=root
-MYSQLPASSWORD=your_password
-MYSQLDATABASE=intelliquiz
-MYSQLPORT=3306
-SECRET_KEY=intelliquiz_secret_key
-
-### 5️⃣ Setup database
-
-Run the schema file located at:
-db/schema.sql
-
-### 6️⃣ Run the app
-python app.py
 
 
 ## 🖼️ Screenshots
